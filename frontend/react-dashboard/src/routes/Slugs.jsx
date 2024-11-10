@@ -1,0 +1,8 @@
+export const ROOT_PATH = "/"
+export const ALLCLIENTS = "/allclients"
+export const HOSTS_PATH = "/hosts"
+export const TRANSACTION_PATH = "/transaction"
+export const PROFILE_PATH = "/profile"
+export const SETTINGS_PATH = "/settings"
+export const HELP_PATH = "/help"
+export const AUTH_PATH = "/auth"
