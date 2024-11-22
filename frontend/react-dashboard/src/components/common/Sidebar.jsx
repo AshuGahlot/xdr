@@ -17,8 +17,8 @@ const Sidebar = () => {
             <div className={'mx-auto flex justify-start items-center gap-x-[3px]'}>
                 {/* <img src={logo} alt="" className={'w-[53px] 2xl:w-[71px]'}/> */}
                 <p className={'text-base 2xl:text-[22px] leading-[27px] px-[20px] 2xl:px-[20px]'}>
-                    <span className={'text-red-600 text-2xl font-semibold'}>Front</span>
-                    <span className={'text-black dark:text-white mx-[10px] 2xl:mx-[10px]'}>end</span>
+                    <span className={'text-red-600 text-2xl font-semibold'}>CRAW</span>
+                    <span className={'text-black dark:text-white mx-[10px] 2xl:mx-[10px] text-xs'}>Security</span>
                 </p>
             </div>
 
@@ -26,21 +26,21 @@ const Sidebar = () => {
             <div className={"mt-[52px] 2xl:mt-[70px]"}>
                 <ul>
                     <li className={"mb-[18px] 2xl:mb-6"}>
-                        <Link to={route.ROOT_PATH} className={"group sideBarNavItem " + (location.pathname === route.ROOT_PATH ? 'bg-lightBlue1 dark:bg-darkBlue1' : 'hover:bg-lightBlue1 dark:hover:bg-darkBlue1')}>
-                            <DashboardIcon fill={"fill-black dark:fill-white " + (location.pathname === route.ROOT_PATH ? 'fill-lightBlue2 dark:fill-darkBlue2' : 'group-hover:fill-lightBlue2 dark:group-hover:fill-darkBlue2')}/>
-                            <span className={"dark:text-white " + (location.pathname === route.ROOT_PATH ? 'text-lightBlue2 dark:text-darkBlue2': 'group-hover:text-lightBlue2 dark:group-hover:text-darkBlue2')}>Dashboard</span>
+                        <Link to={route.DASHBOARD_PATH} className={"group sideBarNavItem " + (location.pathname === route.DASHBOARD_PATH ? 'bg-lightBlue1 dark:bg-darkBlue1' : 'hover:bg-lightBlue1 dark:hover:bg-darkBlue1')}>
+                            <DashboardIcon fill={"fill-black dark:fill-white " + (location.pathname === route.DASHBOARD_PATH ? 'fill-lightBlue2 dark:fill-darkBlue2' : 'group-hover:fill-lightBlue2 dark:group-hover:fill-darkBlue2')}/>
+                            <span className={"dark:text-white " + (location.pathname === route.DASHBOARD_PATH ? 'text-lightBlue2 dark:text-darkBlue2': 'group-hover:text-lightBlue2 dark:group-hover:text-darkBlue2')}>Dashboard</span>
                         </Link>
                     </li>
                     <li className={"mb-[18px] 2xl:mb-6"}>
-                        <Link to={route.ALLCLIENTS} className={"group sideBarNavItem " + (location.pathname === route.ALLCLIENTS ? 'bg-lightBlue1 dark:bg-darkBlue1' : 'hover:bg-lightBlue1 dark:hover:bg-darkBlue1')}>
-                            <MarketsIcon fill={"fill-black dark:fill-white " + (location.pathname === route.ALLCLIENTS ? 'fill-lightBlue2 dark:fill-darkBlue2' : 'group-hover:fill-lightBlue2 dark:group-hover:fill-darkBlue2')}/>
-                            <span className={"dark:text-white " + (location.pathname === route.ALLCLIENTS ? 'text-lightBlue2 dark:text-darkBlue2': 'group-hover:text-lightBlue2 dark:group-hover:text-darkBlue2')}>Hosts</span>
+                        <Link to={route.ALLCLIENTS_PATH} className={"group sideBarNavItem " + (location.pathname === route.ALLCLIENTS_PATH ? 'bg-lightBlue1 dark:bg-darkBlue1' : 'hover:bg-lightBlue1 dark:hover:bg-darkBlue1')}>
+                            <MarketsIcon fill={"fill-black dark:fill-white " + (location.pathname === route.ALLCLIENTS_PATH ? 'fill-lightBlue2 dark:fill-darkBlue2' : 'group-hover:fill-lightBlue2 dark:group-hover:fill-darkBlue2')}/>
+                            <span className={"dark:text-white " + (location.pathname === route.ALLCLIENTS_PATH ? 'text-lightBlue2 dark:text-darkBlue2': 'group-hover:text-lightBlue2 dark:group-hover:text-darkBlue2')}>Clients</span>
                         </Link>
                     </li>
                     <li className={"mb-[18px] 2xl:mb-6"}>
-                        <Link to={route.TRANSACTION_PATH} className={"group sideBarNavItem " + (location.pathname === route.TRANSACTION_PATH ? 'bg-lightBlue1 dark:bg-darkBlue1' : 'hover:bg-lightBlue1 dark:hover:bg-darkBlue1')}>
-                            <TransactionIcon fill={"fill-black dark:fill-white " + (location.pathname === route.TRANSACTION_PATH ? 'fill-lightBlue2 dark:fill-darkBlue2' : 'group-hover:fill-lightBlue2 dark:group-hover:fill-darkBlue2')}/>
-                            <span className={"dark:text-white " + (location.pathname === route.TRANSACTION_PATH ? 'text-lightBlue2 dark:text-darkBlue2': 'group-hover:text-lightBlue2 dark:group-hover:text-darkBlue2')}>Transactions</span>
+                        <Link to={route.REGISTER_PATH} className={"group sideBarNavItem " + (location.pathname === route.REGISTER_PATH ? 'bg-lightBlue1 dark:bg-darkBlue1' : 'hover:bg-lightBlue1 dark:hover:bg-darkBlue1')}>
+                            <TransactionIcon fill={"fill-black dark:fill-white " + (location.pathname === route.REGISTER_PATH ? 'fill-lightBlue2 dark:fill-darkBlue2' : 'group-hover:fill-lightBlue2 dark:group-hover:fill-darkBlue2')}/>
+                            <span className={"dark:text-white " + (location.pathname === route.REGISTER_PATH ? 'text-lightBlue2 dark:text-darkBlue2': 'group-hover:text-lightBlue2 dark:group-hover:text-darkBlue2')}>Transactions</span>
                         </Link>
                     </li>
                     <li className={"mb-[18px] 2xl:mb-6"}>

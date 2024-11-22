@@ -12,6 +12,7 @@ import { LineChart } from "../components/dashboard/charts/LineChart.jsx";
 import UserData from "../components/dashboard/UserData.jsx";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import WorldMap from '../components/dashboard/Map.jsx';
+import ActiveUsers from '../components/dashboard/ActiveUsers.jsx';
 
 const Home = () => {
      // State to track dimensions and order of sections
@@ -58,7 +59,7 @@ const Home = () => {
 
   return (
     <div className={'w-full'}>
-    {/*wallet Section*/}
+        <ActiveUsers />
     <div className={''}>
             <UserData data={walletData}/>
     </div>

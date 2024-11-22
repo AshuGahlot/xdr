@@ -3,9 +3,9 @@ import Circle from 'react-circle'
 
 function ActiveUsers() {
   return (
-    <div className={"h-auto w-auto dark:text-white text-black sm:grid sm:grid-cols-4 lg:grid-cols-4 2xl:grid-cols-4 gap-x-[18px] gap-y-[18px] 2xl:gap-x-[25px]"}>
+    <div className={"h-auto w-auto dark:text-white text-black sm:grid sm:grid-cols-4 lg:grid-cols-4 2xl:grid-cols-4 gap-x-[18px] gap-y-[18px] 2xl:gap-x-[25px] mb-[18px]"}>
 
-        <div className={'dashboardCard col-span-1'}>
+        <div className={'dashboardCard col-span-1 shadow-md'}>
             <div className={'h-auto w-full flex justify-center flex-wrap py-6'}>
                 <Circle progress={78} size={150} progressColor={'red'} textColor="grey" lineWidth={30}/>
             </div>
@@ -15,7 +15,7 @@ function ActiveUsers() {
             </div>
         </div>
 
-        <div className={'dashboardCard col-span-3 '}>
+        <div className={'dashboardCard col-span-3 shadow-md'}>
             <div className={'flex justify-center'}>
                 <div className={'h-auto w-full text-center flex items-center flex-col py-6 px-4 '}>
                     <Circle progress={35} size={100} progressColor={'blue'} textColor="grey" lineWidth={20}/>

@@ -9,19 +9,19 @@ Chart.register(...registerables);
 
 
 const CpuChart = ({sys_info}) => {
-  const {cpu_usage} = sys_info?.system_info?.board || {};
+  const {cpu_usage} = sys_info|| {};
   const [cpuData, setCpuData] = useState([])
   const [timeStamp, setTimestamp] = useState([])
       
   useEffect(() => {
-    // console.log(cpuData);
+    // console.log(sys_info);
   const interval = setInterval(() => {
           if (cpu_usage !== null) {
-            setCpuData((prevData) => [...prevData.slice(-7), cpu_usage]); 
-            setTimestamp((prevTimes) => [...prevTimes.slice(-7), new Date().toLocaleTimeString(),
+            setCpuData((prevData) => [...prevData.slice(-40), cpu_usage]); 
+            setTimestamp((prevTimes) => [...prevTimes.slice(-40), new Date().toLocaleTimeString(),
             ]);
           }
-        }, 3000);
+        }, 1000);
     
     
         return () => clearInterval(interval)
@@ -31,7 +31,8 @@ const CpuChart = ({sys_info}) => {
 
 
   const data = {
-    labels: timeStamp,
+    // labels: timeStamp,
+    labels: timeStamp.fill(''),
     datasets: [
       {
         label: 'CPU USAGE',
@@ -40,7 +41,7 @@ const CpuChart = ({sys_info}) => {
         backgroundColor: 'rgba(39, 144, 245, 0.3)',
         borderColor: 'rgba(39, 144, 245, 1)', 
         borderWidth: 2, // Line width
-        tension: 0.3, // Smoothing effect
+        tension: 0.5, // Smoothing effect
         pointRadius: 0, // Hide data points on the line
       }
     ]
@@ -76,7 +77,7 @@ const CpuChart = ({sys_info}) => {
       },
       y: {
         beginAtZero: true, // Start from 8000
-        // max: 10,
+        max: 100,
         ticks: {
           font: {
             size: 12,
@@ -103,7 +104,7 @@ export {CpuChart};
 
 
 const RamChart = ({sys_info}) => {
-  const {mem} = sys_info?.system_info?.board || {};
+  const {mem} = sys_info || {};
   const [ramData, setRamdata] = useState([])
   const [timeStamp, setTimestamp] = useState([])
 
@@ -114,11 +115,11 @@ const RamChart = ({sys_info}) => {
     // console.log('useffect ', ram_usage);
     const interval = setInterval(() => {
       if (ram_usage !== null) {
-        setRamdata((prevData) => [...prevData.slice(-7), ram_usage]); 
-        setTimestamp((prevTimes) => [...prevTimes.slice(-7), new Date().toLocaleTimeString(),
+        setRamdata((prevData) => [...prevData.slice(-40), ram_usage]); 
+        setTimestamp((prevTimes) => [...prevTimes.slice(-40), new Date().toLocaleTimeString(),
         ]);
       }
-    }, 3000);
+    }, 1000);
 
     return () => clearInterval(interval)
     
@@ -126,7 +127,7 @@ const RamChart = ({sys_info}) => {
 
 
   const data = {
-    labels: timeStamp,
+    labels: timeStamp.fill(''),
     datasets: [
       {
         label: 'RAM USAGE',
@@ -201,7 +202,7 @@ export {RamChart};
 const StorageChart = () => {
 
   const data = {
-    labels:  ['Total Storage', 'Used Storage', 'Available Storage'],
+    labels:  ['Total Storage', 'Used Storage'],
     datasets: [
       {
         label: 'STORAGE USAGE',
@@ -247,7 +248,7 @@ export {StorageChart};
 
 // Network Usage 
 const NetworkChart = ({sys_info}) => {
-  const {network} = sys_info?.system_info || {};
+  const {network} = sys_info || {};
   const [networksent, setNetworksent] = useState([])
   const [networkrec, setNetworkrec] = useState([])
   const [timeStamp, setTimestamp] = useState([])
@@ -332,3 +333,58 @@ const NetworkChart = ({sys_info}) => {
 
 export {NetworkChart};
 
+
+
+
+
+
+
+
+
+const StorageBarChart = ({ sys_info }) => {
+  const {storage} = sys_info || {};
+  const [storageDrive, setStorageDrive] = useState([]);
+  // const usedStorage = totalStorage - availableStorage;
+
+
+  useEffect(() => {
+    
+    if(storage && Array.isArray(storage)){
+      setStorageDrive(storage)
+    }
+    console.log('Bar chart storage useffect',sys_info);
+    
+}, [storage]);
+
+  const data = {
+    labels: ['Storage'],
+    datasets: [
+      {
+        label: 'Used Storage',
+        data: [],
+        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+      },
+      {
+        label: 'Available Storage',
+        data: [],
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    scales: {
+      x: { stacked: true },
+      y: { 
+        stacked: true,
+        beginAtZero: true,
+        // max: totalStorage, // Sets the y-axis max to the total storage value
+      },
+    },
+  };
+
+  return <Bar data={data} options={options} />;
+};
+
+export {StorageBarChart};

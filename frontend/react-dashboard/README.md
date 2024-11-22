@@ -50,7 +50,7 @@ Dashboard
 
 ### Clone My GitHub Repository from:
 ```
-https://github.com/Joyontokarmakar/react-dashboard.git
+https://github.com/AshuGahlot/main.git
 ```
 
 ### Installation

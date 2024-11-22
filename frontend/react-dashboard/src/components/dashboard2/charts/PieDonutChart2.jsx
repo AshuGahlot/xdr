@@ -5,7 +5,7 @@ import useThemeMode from '../../../Hooks/useThemeMode'
 
 
 const PieDonutChart = ({sys_info, data}) => {
-    const {storage} = sys_info?.system_info || {};
+    const {storage} = sys_info || {};
     const [storageDrive, setStoragedrives] = useState([]);
 
     useEffect(() => {

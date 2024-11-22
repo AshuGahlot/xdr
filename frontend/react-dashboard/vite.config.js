@@ -4,11 +4,9 @@ import react from '@vitejs/plugin-react-swc'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  optimizeDeps: {
-    // exclude: ['react-dom'],
-    // include: ["react-beautiful-dnd"]
+  server: {
+    historyApiFallback: true,
   },
-  
   // build: {
   //   rollupOptions: {
   //     external: ['react', 'react-dom'] // Mark react-dom as external
