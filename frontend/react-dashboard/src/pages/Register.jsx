@@ -1,5 +1,6 @@
 import React from "react";
 import shieldXDR from '../assets/images/shieldXDR.webp'
+import Dlp from "../components/DLP/Dlp";
 const Register = () => {
   return (
     <>
@@ -75,6 +76,10 @@ const Register = () => {
       </div>
     </div>
       </div>
+      {/* Dlp Start  */}
+      {/* <div className='bg-slate-500 mt-6 py-4 px-4 rounded-lg'>
+      <Dlp />
+      </div> */}
     </>
   );
 };

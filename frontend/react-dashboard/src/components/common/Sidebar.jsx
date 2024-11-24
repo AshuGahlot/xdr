@@ -44,9 +44,9 @@ const Sidebar = () => {
                         </Link>
                     </li>
                     <li className={"mb-[18px] 2xl:mb-6"}>
-                        <Link to={route.PROFILE_PATH} className={"group sideBarNavItem " + (location.pathname === route.PROFILE_PATH ? 'bg-lightBlue1 dark:bg-darkBlue1' : 'hover:bg-lightBlue1 dark:hover:bg-darkBlue1')}>
-                            <ProfileIcon fill={"fill-black dark:fill-white " + (location.pathname === route.PROFILE_PATH ? 'fill-lightBlue2 dark:fill-darkBlue2' : 'group-hover:fill-lightBlue2 dark:group-hover:fill-darkBlue2')}/>
-                            <span className={"dark:text-white " + (location.pathname === route.PROFILE_PATH ? 'text-lightBlue2 dark:text-darkBlue2': 'group-hover:text-lightBlue2 dark:group-hover:text-darkBlue2')}>Profile</span>
+                        <Link to={route.DLP_PATH} className={"group sideBarNavItem " + (location.pathname === route.DLP_PATH ? 'bg-lightBlue1 dark:bg-darkBlue1' : 'hover:bg-lightBlue1 dark:hover:bg-darkBlue1')}>
+                            <ProfileIcon fill={"fill-black dark:fill-white " + (location.pathname === route.DLP_PATH ? 'fill-lightBlue2 dark:fill-darkBlue2' : 'group-hover:fill-lightBlue2 dark:group-hover:fill-darkBlue2')}/>
+                            <span className={"dark:text-white " + (location.pathname === route.DLP_PATH ? 'text-lightBlue2 dark:text-darkBlue2': 'group-hover:text-lightBlue2 dark:group-hover:text-darkBlue2')}>Profile</span>
                         </Link>
                     </li>
                     <li className={"mb-[18px] 2xl:mb-6"}>

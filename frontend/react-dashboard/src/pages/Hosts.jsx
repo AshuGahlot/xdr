@@ -9,7 +9,7 @@ import PieDonutChart from "../components/dashboard2/charts/PieDonutChart2.jsx";
 import DonutChart2 from "../components/dashboard2/charts/DonutChart2.jsx";
 import LineChart2 from "../components/dashboard2/charts/LineChart2.jsx";
 import WorldMap from "../components/dashboard2/Map2.jsx";
-import {CpuChart, RamChart, StorageChart, NetworkChart, StorageBarChart} from "../components/dashboard2/charts/CpuChart2.jsx";
+import {CpuChart, RamChart, StorageChart, NetworkChart} from "../components/dashboard2/charts/CpuChart2.jsx";
 import InstalledApps , { InstalledDrivers, BackgroundProcess, Logs, ConnectedIps, FireWallRules } from "../components/dashboard2/Tables/Table.jsx";
 import MapComponent from '../components/dashboard2/Globe.jsx';
 
@@ -52,20 +52,20 @@ const Hosts = () => {
 
       {/* Charts start  */}
       <div className={"h-auto w-auto sm:grid sm:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-x-[18px] gap-y-[18px] 2xl:gap-x-[25px] mt-[30px] 2xl:mt-[30px]"}>
-        <div className={"dashboardCard w-full h-[150px] sm:h-[200px]  lg:h-[250px]  2xl:h-[270px] 2xl:px-1 py-1 2xl:py-1 px-1 shadow-md"}>
+        <div className={"dashboardCard w-full h-[150px] sm:h-[200px]  lg:h-[250px]  2xl:h-[320px] 2xl:px-1 py-1 2xl:py-1 px-1 shadow-md"}>
           <CpuChart sys_info={data}/>
         </div>
-        <div className={"dashboardCard w-full  h-[150px] sm:h-[200px] lg:min-h-[250px] 2xl:min-h-[270px] 2xl:px-1 py-1 2xl:py-1 px-1 shadow-md"}>
+        <div className={"dashboardCard w-full  h-[150px] sm:h-[200px] lg:min-h-[250px] 2xl:min-h-[320px] 2xl:px-1 py-1 2xl:py-1 px-1 shadow-md"}>
           <RamChart sys_info={data}/>
         </div>
-        <div className={"dashboardCard w-full  h-[150px] sm:h-[200px] lg:min-h-[250px] 2xl:min-h-[270px] 2xl:px-1 py-1 2xl:py-1 px-1 shadow-md"}>
+        <div className={"dashboardCard w-full  h-[150px] sm:h-[200px] lg:min-h-[250px] 2xl:min-h-[320px] 2xl:px-1 py-1 2xl:py-1 px-1 shadow-md"}>
         <NetworkChart sys_info={data}/>
         </div>
         <div className={"dashboardCard text-center flex justify-center w-full h-[180px] sm:h-[200px] lg:min-h-[270px] 2xl:min-h-[270px] px-2 2xl:px-2 py-4 2xl:py-4 md:col-span-2 shadow-md"}>
         <PieDonutChart sys_info={data} /> 
         </div>
         <div className={"dashboardCard w-full  h-[150px] sm:h-[200px] lg:min-h-[250px] 2xl:min-h-[270px] 2xl:px-8 py-2 2xl:py-6 px-2 shadow-md"}>
-        <StorageBarChart />
+        {/* <StorageBarChart /> */}
         </div>
       </div>
 

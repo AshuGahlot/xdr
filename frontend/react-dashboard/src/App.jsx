@@ -1,7 +1,6 @@
 import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
 import * as route from './routes/Slugs'
 import Home from "./pages/home.jsx";
-import Profile from "./pages/profile.jsx";
 import Navbar from "./components/common/Navbar.jsx";
 import Sidebar from "./components/common/Sidebar.jsx";
 // import Markets from "./pages/transaction.jsx";
@@ -18,6 +17,7 @@ import SpecificDataPage from "./components/dashboard2/Tables/SpecificDataPage";
 import Accordian from "./components/dashboard2/SideSheet/Accordian";
 import MapComponent from "./components/dashboard2/Globe.jsx";
 import Register from "./pages/Register";
+import Dlp from "./components/DLP/Dlp";
 
 // import Details from "./pages/Details";
 
@@ -43,7 +43,7 @@ function App() {
                                 <Route path='globe/' element={<MapComponent />} />
                                 {/* <Route path={route.HOSTS_PATH} element={<Hosts/>} /> */}
                                 <Route path={route.REGISTER_PATH} element={<Register />} />
-                                <Route path={route.PROFILE_PATH} element={<Profile/>} />
+                                <Route path={route.DLP_PATH} element={<Dlp />} />
                                 <Route path={route.SETTINGS_PATH} element={<Settings/>} />
                                 <Route path={route.HELP_PATH} element={<Help/>} />
                                 <Route path={route.AUTH_PATH} element={<Auth/>} />

@@ -14,7 +14,7 @@ const InstalledApps = () => {
     const { ip } = useParams();
     const [appsData, setAppsData] = useState(null);
     const [rawData, setRawData] = useState(null);
-    const [error, setError] = useState(null);
+    // const [error, setError] = useState(null);
 
     const handleViewAllApps = () => {
         navigate('/specific-data/', { state: { data: rawData, type: 'apps', reset: true } });
@@ -37,7 +37,7 @@ const InstalledApps = () => {
                 }));
                 setAppsData(truncatedData);
             } catch (err) {
-                setError('Failed to fetch client details');
+                // setError('Failed to fetch client details');
                 console.error('Error fetching client data:', err);
             }
         };
@@ -45,7 +45,7 @@ const InstalledApps = () => {
         fetchClientData();
     }, [ip]);
 
-    if (error) return <p>{error}</p>;
+    // if (error) return <p>{error}</p>;
     if (!appsData) {
         return (
           <div className={'w-full flex flex-col h-full'}>
@@ -186,7 +186,6 @@ const BackgroundProcess = () => {
                 if (!response.ok) throw new Error(`Error fetching client data: ${response.status}`);
                 
                 const data = await response.json();
-                console.log(data);
                 
                 setBackgroundProcessData(data);
             } catch (err) {
@@ -320,7 +319,7 @@ const Logs = () => {
                                                     : log.svt === "High"
                                                     ? "bg-red-500 dark:bg-red-700" 
                                                     : "bg-gray-200 dark:bg-gray-600" 
-                                                    }`}>Svt : {log.svt}</span>
+                                                    }`}>{log.svt}</span>
                                             </li>
                                         ))
                                     ) : (
@@ -361,16 +360,14 @@ const ConnectedIps = ({ sys_info }) => {
         } else {
             setError("Invalid ports data.");
         }
-        // console.log(ports);
         
-    }, [ports]);
+    },[ip]);
 
     if (error) return <p>{error}</p>;
     if (!sys_info?.ports?.length) {
         return (
-          <div className={'w-full flex flex-col h-full'}>
-            <Skeleton count={0.4} baseColor={'#d9d9d9'}/> 
-            <Skeleton height={30} count={8} baseColor={'#d9d9d9'} enableAnimation={true} duration={1}  className="mb-2" />
+          <div className={'w-full flex justify-center items-center text-lg text-gray-400 h-full '}>
+            <h1>Fetching Connectd IP Data .......</h1>
           </div>
         );
     }

@@ -66,7 +66,7 @@ const MapComponent = () => {
 
     const animate = () => {
       if (isAnimating.current) {
-        setRotation((prevRotation) => (prevRotation + 0.8) % 360); // Rotate by 0.8 degrees
+        setRotation((prevRotation) => (prevRotation - 0.8 + 360) % 360); // Rotate by 0.8 degrees
         animationFrameId.current = requestAnimationFrame(animate);
       }
     };
@@ -104,7 +104,7 @@ const MapComponent = () => {
   }, []);
 
   return (
-    <div className="w-auto flex h-[1000px] bg-[#000000]">
+    <div className="w-auto flex h-[1000px] bg-lightAsh4">
       <div className="md:h-[400px] 2xl:h-[500px] ml-10 text-xs text-white bg-gray-900 mt-40  py-4 w-[450px] overflow-y-scroll">
         <table>
           <thead className="bg-gray-700 text-center">
