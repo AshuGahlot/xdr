@@ -10,7 +10,7 @@ import menu from '../../../assets/images/menu.png'
 Chart.register(...registerables);
 
 
-
+// Cpu Usage 
 const CpuChart = ({sys_info}) => {
   const {cpu_usage} = sys_info || {};
   const [cpuData, setCpuData] = useState([])
@@ -104,15 +104,17 @@ const CpuChart = ({sys_info}) => {
 
   return (
     <div className={'w-full h-full 2xl:min-w-full pb-4'}>
-      <div className='text-end'>
-      <button onClick={handleModalView} className="pt-2 pr-2"><img src={menu} alt="" /></button>
+      <div className='flex justify-between pt-2 px-2'>
+      <h2 className="cardTitle ">CPU UTILIZATION </h2>
+      <button onClick={handleModalView}><img src={menu} alt="" /></button>
       {/* <button onClick={handleModalView} className="px-[10px]">View</button> */}
       </div>
       <Line data={data} options={options} /> {/* Render the canvas element for the chart */}
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
           <div className='leading-8'>
-          <h2>Cpu Name : <span className='text-green-600 dark:text-green-400'>{cpu_name}</span></h2>
+            <h1 className='border-b-2'>CPU DETAILS</h1>
+          <h2 className='pt-4'>Cpu Name : <span className='text-green-600 dark:text-green-400'>{cpu_name}</span></h2>
           <h2>Cpu Usage : <span className='text-green-600 dark:text-green-400'>{cpu_usage} %</span></h2>
           <h2>OS : <span className='text-green-600 dark:text-green-400'>{os}</span></h2>
           <h2>Architecture : <span className='text-green-600 dark:text-green-400'>{archs}</span></h2>
@@ -134,17 +136,22 @@ export {CpuChart};
 
 
 
-
+// Ram Usage 
 const RamChart = ({sys_info}) => {
   const {mem} = sys_info || {};
   const [ramData, setRamdata] = useState([])
   const [timeStamp, setTimestamp] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
-
+  const [modalData, setModalData] = useState([]);
 
   const handleModalView = () => {
     setIsModalOpen(true)
-    console.log(sys_info)
+    console.log(sys_info);
+    const memInGB = mem.map((value, index) => 
+      index === 2 ? value : (value / (1024 ** 3)).toFixed(2)
+    );
+     setModalData(memInGB)
+       console.log(memInGB)
     // setCpunum(sys_info.mem[2])
     
   }
@@ -229,14 +236,21 @@ const RamChart = ({sys_info}) => {
 
   return (
     <div className={'w-full h-full 2xl:min-w-full pb-4'}>
-      <div className='text-end '>
-      <button  onClick={handleModalView} className="pt-2 pr-2"><img src={menu} alt="" /></button>
+     <div className='flex justify-between pt-2 px-2'>
+     <h2 className="cardTitle">RAM UTILIZATION </h2>
+      <button  onClick={handleModalView}><img src={menu} alt="" /></button>
       </div>
       <Line data={data} options={options} /> {/* Render the canvas element for the chart */}
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
-          <h2>Ram Usage : %</h2>
-          <p>Here is the content of the modal.</p>
+           <div className='leading-8'>
+            <h1 className='border-b-2'>RAM DETAILS</h1>
+          <h2 className='pt-4'>Total Memory : <span className='text-green-600 dark:text-green-400'>{modalData[0]} GB</span></h2>
+          <h2>Used Ram : <span className='text-green-600 dark:text-green-400'>{modalData[1]} GB</span></h2>
+          <h2>Ram Usage : <span className='text-green-600 dark:text-green-400'>{modalData[2]} %</span></h2>
+          <h2>Available Ram : <span className='text-green-600 dark:text-green-400'>{modalData[3]} GB</span></h2>
+          <h2>Cached Ram : <span className='text-green-600 dark:text-green-400'>{modalData[4]} GB</span></h2>
+          </div>
         </Modal>
       )}
     </div>
@@ -244,67 +258,6 @@ const RamChart = ({sys_info}) => {
 };
 
 export {RamChart};
-
-
-
-
-
-
-
-
-
-
-// Storage Usage 
-const StorageChart = () => {
-
-  const data = {
-    labels:  ['Total Storage', 'Used Storage'],
-    datasets: [
-      {
-        label: 'STORAGE USAGE',
-        // data: 
-        backgroundColor: [
-          'rgba(54, 162, 235, 0.6)', // Total Storage
-          'rgba(255, 99, 132, 0.6)', // Used Storage
-          'rgba(75, 192, 192, 0.6)'  // Free Storage (Available)
-        ],
-        borderColor: [
-          'rgba(54, 162, 235, 1)', // Total Storage
-          'rgba(255, 99, 132, 1)', // Used Storage
-          'rgba(75, 192, 192, 1)'  // Free Storage (Available)
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: false,
-        text: 'Monthly Sales Data',
-      },
-    },
-  };
-
-  return (
-    <>
-          <Bar data={data} options={options} />
-    </>
-  )
-};
-
-export {StorageChart};
-
-
-
-
-
-
 
 
 
@@ -395,8 +348,9 @@ const NetworkChart = ({sys_info}) => {
 
   return (
     <div className={'w-full h-full 2xl:min-w-full pb-6'}>
-      <div className='text-end'>
-      <button className="pt-2 pr-2"><img src={menu} alt="" /></button>
+      <div className='flex justify-between pt-2 px-2'>
+      <h2 className="cardTitle ">NETWORK USAGE </h2>
+      <button><img src={menu} alt="" /></button>
       </div>
       <Line data={data} options={options} /> {/* Render the canvas element for the chart */}
     </div>
@@ -408,55 +362,115 @@ export {NetworkChart};
 
 
 
+// Storage Drives 
+const BarStorageChart = ({ sys_info }) => {
+  const { storage } = sys_info || {};
+  const [storageDrive, setStoragedrives] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-
-
-
-
-// const StorageBarChart = ({ sys_info }) => {
-//   const {storage} = sys_info || {};
-//   const [storageDrive, setStorageDrive] = useState([]);
-//   // const usedStorage = totalStorage - availableStorage;
-
-
-//   useEffect(() => {
+  const handleModalView = () => {
+    setIsModalOpen(true)
+    console.log(sys_info);
     
-//     if(storage && Array.isArray(storage)){
-//       setStorageDrive(storage)
-//     }
-//     console.log('Bar chart storage useffect',sys_info);
-    
-// }, [storage]);
+  }
 
-//   const data = {
-//     labels: ['Storage'],
-//     datasets: [
-//       {
-//         label: 'Used Storage',
-//         data: [],
-//         backgroundColor: 'rgba(255, 99, 132, 0.6)',
-//       },
-//       {
-//         label: 'Available Storage',
-//         data: [],
-//         backgroundColor: 'rgba(75, 192, 192, 0.6)',
-//       },
-//     ],
-//   };
+  useEffect(() => {
+    if (storage && Array.isArray(storage)) {
+      setStoragedrives(storage);
+    }
+  }, [storage]);
 
-//   const options = {
-//     responsive: true,
-//     scales: {
-//       x: { stacked: true },
-//       y: { 
-//         stacked: true,
-//         beginAtZero: true,
-//         // max: totalStorage, // Sets the y-axis max to the total storage value
-//       },
-//     },
-//   };
+  // Prepare data for Chart.js Stacked Bar Chart
+  const formatDataForChart = () => {
+    const labels = [];
+    const usedData = [];
+    const totalData = [];
 
-//   return <Bar data={data} options={options} />;
-// };
+    storageDrive.forEach(drive => {
+      labels.push(drive.device);  // Device names as labels
+      usedData.push(drive.used_gb);  // Used storage for the bar chart
+      totalData.push(drive.total_size_gb);  // Total storage for the bar chart
+    });
 
-// export {StorageBarChart};
+    return {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Used Storage (GB)',
+          data: usedData,
+          backgroundColor: '#2F80ED',  // Blue color for used storage
+          borderColor: '#2F80ED',
+          borderWidth: 1,
+          stack: 'stack1',
+        },
+        {
+          label: 'Total Storage (GB)',
+          data: totalData,
+          backgroundColor: '#B1D3FF',  // Light blue color for total storage
+          borderColor: '#B1D3FF',
+          borderWidth: 1,
+          stack: 'stack1',
+        },
+      ],
+    };
+  };
+
+  const chartData = formatDataForChart();
+
+  const chartOptions = {
+    responsive: true,
+    scales: {
+      xAxes: [
+        {
+          stacked: true,  // Enable stacking on the X-axis
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+      yAxes: [
+        {
+          stacked: true,  // Enable stacking on the Y-axis
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+    },
+    legend: {
+      position: 'top',
+    },
+  };
+
+  return (
+    <>
+    <div className="storage-bar-chart">
+      <div className='flex justify-between pt-2 px-2'>
+      <h2 className="cardTitle ">STORAGE DRIVES </h2>
+      <button onClick={handleModalView}><img src={menu} alt="" /></button>
+      </div>
+      <div className="flex justify-center mt-4">
+        <Bar data={chartData} options={chartOptions} />
+      {isModalOpen && (
+      <Modal onClose={() => setIsModalOpen(false)}>
+        <div className="leading-8">
+          <h1 className="border-b-2">STORAGE DETAILS</h1>
+          <div className='grid grid-cols-2'>
+          {storageDrive.map((drive, index) => (
+            <div key={index} className="mt-2">
+              <h2 className="pt-4"><strong>Drive:</strong> {drive.device}</h2>
+              <h2>Total Storage: <span className="text-green-600 dark:text-green-400">{drive.total_size_gb} GB</span></h2>
+              <h2>Used Storage: <span className="text-green-600 dark:text-green-400">{drive.used_gb} GB</span></h2>
+            </div>
+          ))}
+          </div>
+        </div>
+      </Modal>
+    )}
+      </div>
+    </div>
+  </>
+  );
+};
+
+export {BarStorageChart};

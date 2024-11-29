@@ -16,8 +16,27 @@ const MapComponent = () => {
   const location = useLocation();
   const { data, type, sys_info } = location.state || {}; // Accessing passed data
 
+//   const countryEmojis = sys_info.location
+//   .map((item, index) => {
+//     if (!item.loc) {
+//       console.warn(`Missing loc in location[${index}]:`, item);
+//       return null;
+//     }
+//     if (!item.loc.country_emoji) {
+//       console.warn(`Missing country_emoji in location[${index}]:`, item.loc);
+//       return null;
+//     }
+//     return item.loc.country_emoji;
+//   })
+//   .filter(Boolean); // Remove null values
+
+// console.log("Extracted country emojis:", countryEmojis);
+
   // Parse and set latitude/longitude
   useEffect(() => {
+    console.log(sys);
+    console.log(sys_info);
+    
     if (sys_info?.location) {
       const newLongitude = [];
       const newLatitude = [];
@@ -30,6 +49,7 @@ const MapComponent = () => {
       setLatitude(newLatitude);
       setLongitude(newLongitude);
     }
+    setSys(sys_info.location)
   }, [sys_info]);
 
   // Smooth Globe Rotation with Throttling
@@ -123,7 +143,7 @@ const MapComponent = () => {
   // Responsive layout adjustments
   const layout = useMemo(() => {
     const isSmallScreen = window.innerWidth < 768;
-    const globeSize = isSmallScreen ? 400 : 900; // Adjust size for smaller screens
+    const globeSize = isSmallScreen ? 400 : 800; // Adjust size for smaller screens
 
     return {
       width: globeSize,
@@ -132,7 +152,7 @@ const MapComponent = () => {
         projection: {
           type: "orthographic",
           rotation: { lon: rotation, lat: 0, roll: 0 },
-          scale: isSmallScreen ? 0.6 : 0.8,
+          scale: isSmallScreen ? 0.6 : 0.9,
         },
         scope: "world",
         showcoastlines: true,
@@ -159,24 +179,30 @@ const MapComponent = () => {
 
   return (
     <div className="w-full h-[800px] grid grid-cols-4" style={{background:' linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,43,65,1) 49%, rgba(0,4,5,1) 100%)'}}>
-      <div className="md:h-[400px] 2xl:h-[600px] ml-2 text-xs text-white bg-gray-900 mt-2 sticky w-[450px] overflow-y-scroll z-10 border border-gray-700">
+      <div className="md:h-[400px] 2xl:h-[600px] text-xs text-white bg-gray-900 sticky w-[450px] overflow-y-scroll z-10 border border-gray-700">
         <table>
           <thead className="bg-gray-700 text-center border-b-2  sticky top-0 z-10">
             <tr>
               <th className="px-8 py-2">Local Address</th>
               <th className="px-8 py-2">Process Name</th>
               <th className="px-8 py-2">Remote Address</th>
+              {/* <th className="px-8 py-2">Country Flags</th> */}
             </tr>
           </thead>
-          <tbody className="text-center">
+          <tbody className="text-center text-gray-300">
             {data.length > 0 ? (
-              data.map((item, index) => (
+              data.map((item, index) => {
+                 // Get a country emoji for each row (e.g., based on index or other logic)
+    // const countryEmoji = sys[index % sys.length]?.loc?.country_emoji || "N/A"; 
+                return (
                 <tr key={index} className='tableRow'>
                   <td className="px-1 py-4">{item.local_addr}</td>
                   <td className="px-1 py-4">{item.process_name}</td>
                   <td className="px-1 py-4">{item.rem_addr}</td>
+                  {/* <td className="px-1 py-4">{countryEmoji}</td> */}
                 </tr>
-              ))
+                );
+              })
             ) : (
               <tr>
                 <td> </td>
@@ -197,22 +223,24 @@ const MapComponent = () => {
         />
       </div>
         
-        <div className="md:h-[400px] 2xl:h-[500px] text-xs text-white bg-gray-900 mt-2 sticky w-[380px] overflow-y-scroll ml-auto border border-gray-700">
+        <div className="md:h-[400px] 2xl:h-[500px] text-xs text-white bg-gray-900 sticky w-[380px] overflow-y-scroll border border-gray-700">
         <table>
           <thead className="bg-gray-700 text-center border-b-2 sticky top-0 z-10">
             <tr>
-              <th className="px-8 py-2">Malicious IP Address</th>
-              <th className="px-8 py-2">Domain</th>
-              <th className="px-8 py-2">Country </th>
+              <th className="px-2 py-2">Malicious IP Address</th>
+              <th className="px-2 py-2">Domain</th>
+              <th className="px-2 py-2">Country </th>
+              <th className="px-2 py-2">Country flag</th>
             </tr>
           </thead>
           <tbody className="text-center">
             {sys.length > 0 ? (
               sys.map((item, index) => (
                 <tr key={index} className='tableRow'>
-                  <td className="px-2 py-2">{item.ipabuse?.data?.ipAddress}</td>
-                  <td className="px-2 py-2">{item.ipabuse?.data?.domain}</td>
-                  <td className="px-2 py-2">{item.ipabuse?.data?.countryName}</td>
+                  <td className="text-red-500 py-2 ">{item.ipabuse?.data?.ipAddress}</td>
+                  <td className="text-red-600 py-2 ">{item.ipabuse?.data?.domain}</td>
+                  <td className="text-red-500 py-2 ">{item.ipabuse?.data?.countryName}</td>
+                  <td className=" py-2 ">{item.loc?.country_emoji}</td>
                 </tr>
               ))
             ) : (
