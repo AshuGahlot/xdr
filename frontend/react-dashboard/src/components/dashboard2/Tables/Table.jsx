@@ -1,9 +1,9 @@
 // for testing 
-import {useEffect, useState} from "react";
+import {useEffect, useState, useMemo} from "react";
 import upArrow from "../../../assets/svgIcon/arrowUp.svg";
 import downArrow from "../../../assets/svgIcon/arrowDown.svg";
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-
+import menu from '../../../assets/images/menu.png'
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
@@ -14,7 +14,7 @@ const InstalledApps = () => {
     const { ip } = useParams();
     const [appsData, setAppsData] = useState(null);
     const [rawData, setRawData] = useState(null);
-    // const [error, setError] = useState(null);
+    const [error, setError] = useState(null);
 
     const handleViewAllApps = () => {
         navigate('/specific-data/', { state: { data: rawData, type: 'apps', reset: true } });
@@ -37,7 +37,7 @@ const InstalledApps = () => {
                 }));
                 setAppsData(truncatedData);
             } catch (err) {
-                // setError('Failed to fetch client details');
+                setError('Failed to fetch client details');
                 console.error('Error fetching client data:', err);
             }
         };
@@ -45,7 +45,7 @@ const InstalledApps = () => {
         fetchClientData();
     }, [ip]);
 
-    // if (error) return <p>{error}</p>;
+    if (error) return <p>{error}</p>;
     if (!appsData) {
         return (
           <div className={'w-full flex flex-col h-full'}>
@@ -59,15 +59,15 @@ const InstalledApps = () => {
         <div className="w-full flex flex-col h-full">
             <div className="mb-[18px] flex justify-between items-center">
                 <h2 className="font-bold  dark:text-[#eee2df] text-[#161a1d]">Installed Apps</h2>
-                <button className="viewAllBtn px-[10px] py-[2px]" onClick={handleViewAllApps}>View All</button>
+                <button className="py-[2px]" onClick={handleViewAllApps}><img src={menu} alt="" /></button>
             </div>
-            <div className="h-full overflow-y-scroll">
+            <div className="h-full overflow-y-scroll scroll-smooth">
                 <table className="w-full">
                     <tbody>
                         <tr className="tableRow">
                             <td className="text-black dark:text-white font-medium">
                                 <ul>
-                                    {appsData.length > 0 ? (
+                                    {appsData ? (
                                         appsData.map((app, index) => (
                                             <li key={index} className="flex justify-between my-2 py-2 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300 pl-1 rounded-md">
                                                 {app.app_name} <span className="badgee">V : {app.ver}</span>
@@ -135,7 +135,7 @@ const InstalledDrivers = () => {
         <div className="w-full flex flex-col h-full">
             <div className="mb-[18px] flex justify-between items-center">
                 <h2 className="font-bold dark:text-[#eee2df] text-[#161a1d]">Installed Drivers</h2>
-                <button className="viewAllBtn px-[10px] py-[2px]" onClick={handleViewAllDrivers}>View All</button>
+                <button className="py-[2px] " onClick={handleViewAllDrivers}><img src={menu} alt="" /></button>
             </div>
             <div className="h-full overflow-y-scroll">
                 <table className="w-full">
@@ -186,6 +186,8 @@ const BackgroundProcess = () => {
                 if (!response.ok) throw new Error(`Error fetching client data: ${response.status}`);
                 
                 const data = await response.json();
+                // console.log(data);
+                
                 
                 setBackgroundProcessData(data);
             } catch (err) {
@@ -210,7 +212,7 @@ const BackgroundProcess = () => {
         <div className="w-full flex flex-col h-full">
             <div className="mb-[18px] flex justify-between items-center">
                 <h2 className="font-bold dark:text-[#eee2df] text-[#161a1d]">Background Process</h2>
-                <button className="viewAllBtn px-[10px] py-[2px]" onClick={handleViewAllBgp}>View All</button>
+                <button className="py-[2px]" onClick={handleViewAllBgp}><img src={menu} alt="" /></button>
             </div>
             <div className="h-full overflow-y-scroll">
                 <table className="w-full">
@@ -293,7 +295,7 @@ const Logs = () => {
         return (
           <div className={'w-full flex flex-col h-full'}>
             <Skeleton count={0.4} baseColor={'#d9d9d9'}/>
-            <Skeleton height={30} count={8} baseColor={'#d9d9d9'} enableAnimation={true} duration={1} direction={'ltr'} className="mb-2" />
+            <Skeleton height={30} count={8} baseColor={'#d9d9d9'} enableAnimation={true} duration={2} direction={'ltr'} className="mb-2" />
           </div>
         );
     }
@@ -301,7 +303,7 @@ const Logs = () => {
         <div className="w-full flex flex-col h-full">
             <div className="mb-[18px] flex justify-between items-center">
                 <h2 className="font-bold dark:text-[#eee2df] text-[#161a1d]">Logs</h2>
-                <button className="viewAllBtn px-[10px] py-[2px]" onClick={handleViewAllLogs}>View All</button>
+                <button className="py-[2px]" onClick={handleViewAllLogs}><img src={menu} alt="" /></button>
             </div>
             <div className="h-full overflow-y-scroll">
                 <table className="w-full">
@@ -351,31 +353,39 @@ const ConnectedIps = ({ sys_info }) => {
     const [error, setError] = useState(null);
 
     const handleViewAllips = () => {
-        navigate('/globe/', { state: { data: ipData, type: 'ips' } });
+        navigate('/globe/', { state: { data: ipData, type: 'ips', sys_info  } });
     };
-
-    useEffect(() => {
+    
+    // Memoize ipData to avoid recalculations
+    const processedData = useMemo(() => {
         if (Array.isArray(ports)) {
-            setIpData(ports);
+            return ports;
         } else {
             setError("Invalid ports data.");
+            return [];
         }
-        
-    },[ip]);
+    }, [ports,ip]);
+    
+    useEffect(() => {
+        // Only update if processedData is different
+        if (JSON.stringify(ipData) !== JSON.stringify(processedData)) {
+            setIpData(processedData);
+        }
+    }, [processedData]);
 
     if (error) return <p>{error}</p>;
-    if (!sys_info?.ports?.length) {
-        return (
-          <div className={'w-full flex justify-center items-center text-lg text-gray-400 h-full '}>
-            <h1>Fetching Connectd IP Data .......</h1>
-          </div>
-        );
-    }
+    // if (!ports.length) {
+    //     return (
+    //       <div className={'w-full flex justify-center items-center text-lg text-gray-400 h-full '}>
+    //         <h1>Fetching Connectd IP Data .......</h1>
+    //       </div>
+    //     );
+    // }
     return (
         <div className="w-full flex flex-col h-full">
             <div className="mb-[18px] flex justify-between items-center">
                 <h2 className="font-bold dark:text-[#eee2df] text-[#161a1d]">Connectd IPs</h2>
-                <button className="viewAllBtn px-[10px] py-[2px]" onClick={handleViewAllips}>View All</button>
+                <button className="py-[2px]" onClick={handleViewAllips}><img src={menu} alt="" /></button>
             </div>
             <div className="h-full overflow-y-scroll">
                 <table className="w-full">
@@ -453,7 +463,7 @@ const FireWallRules = () => {
         <div className="w-full flex flex-col h-full">
             <div className="mb-[18px] flex justify-between items-center">
                 <h2 className="font-bold dark:text-[#eee2df] text-[#161a1d]">Firewall Rules</h2>
-                <button className="viewAllBtn px-[10px] py-[2px]" onClick={handleViewAllFirewallRules}>View All</button>
+                <button className="py-[2px]" onClick={handleViewAllFirewallRules}><img src={menu} alt="" /></button>
             </div>
             <div className="h-full overflow-y-scroll">
                 <table className="w-full">

@@ -34,9 +34,7 @@ const SideSheet = ({ isOpen, onClose, selectedData, type }) => {
     >
       <div className="flex justify-between items-center p-4 pt-16 border-b border-gray-600 dark:border-gray-300">
         <h2 className="text-lg font-semibold">{title}</h2>
-        <button onClick={onClose} className="text-xl text-gray-600 dark:text-gray-100 hover:text-gray-800">
-          x
-        </button>
+        <button onClick={onClose} className="text-xl text-gray-600 dark:text-gray-100 hover:text-gray-800">✖</button>
       </div>
       <div className="p-4">
       {selectedData ? (

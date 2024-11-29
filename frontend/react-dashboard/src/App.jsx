@@ -16,7 +16,7 @@ import Table from './components/dashboard2/Tables/Table.jsx';
 import SpecificDataPage from "./components/dashboard2/Tables/SpecificDataPage";
 import Accordian from "./components/dashboard2/SideSheet/Accordian";
 import MapComponent from "./components/dashboard2/Globe.jsx";
-import Register from "./pages/Register";
+import Register, { Login } from "./pages/Register";
 import Dlp from "./components/DLP/Dlp";
 
 // import Details from "./pages/Details";
@@ -43,6 +43,7 @@ function App() {
                                 <Route path='globe/' element={<MapComponent />} />
                                 {/* <Route path={route.HOSTS_PATH} element={<Hosts/>} /> */}
                                 <Route path={route.REGISTER_PATH} element={<Register />} />
+                                <Route path={route.LOGIN_PATH} element={<Login />} />
                                 <Route path={route.DLP_PATH} element={<Dlp />} />
                                 <Route path={route.SETTINGS_PATH} element={<Settings/>} />
                                 <Route path={route.HELP_PATH} element={<Help/>} />

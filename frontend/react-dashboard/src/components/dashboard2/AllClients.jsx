@@ -1,6 +1,10 @@
 import React, {useState, useEffect} from "react";
 import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const AllClients = () => {
   const [data, setData] = useState([]); // Holds all client data from API
@@ -16,6 +20,7 @@ const AllClients = () => {
         }
         const clientsData = await response.json();
         setData(clientsData); // Set the fetched clients to the state
+        
 
         // Open a WebSocket for each client
         clientsData.forEach((client) => {
@@ -35,15 +40,19 @@ const AllClients = () => {
               ...prevOnline,
               [ip]: { isOnline: true }
             }));
+
               // Clear reconnect interval on successful connection
-              if (reconnectInterval) clearInterval(reconnectInterval);
+              if (reconnectInterval) {
+                clearInterval(reconnectInterval);
+                reconnectInterval = null;
+              }
           };
 
           Websocket.onmessage = (event) => {
           const systemInfo = JSON.parse(event.data);
           const ipAddress = systemInfo.ip_address;
 
-          // console.log(systemInfo);
+          console.log(systemInfo);
           
           // Check if the IP address from WebSocket message exists in the data list
           if (clientsData.some(client => client.ip === ipAddress)) {
@@ -74,7 +83,7 @@ const AllClients = () => {
                 ...prevOnline,
                 [ipAddress]: { isOnline: false }, // Set IP as offline if no data within 30 seconds
               }));
-            }, 30000);
+            }, 2000);
 
             // Add the timeout reference to `online` state
             setOnline(prevOnline => ({
@@ -161,13 +170,20 @@ const AllClients = () => {
               <td className={"px-6 py-4"}>{d.last_alive}</td>
               <td style={{
               cursor: 'pointer',
-              color: online[d.ip] ?. isOnline ? 'green' : 'red', // Green for online, red for offline
+              color: online[d.ip] ?. isOnline ? 'red' : 'green', // Green for online, red for offline
             }}
               >
-                {online[d.ip] ?.isOnline ? 'Online' : 'Offline'}
+                {online[d.ip] ?.isOnline ? 'Offline' : 'Online'}
               </td>
 
-
+              <ToastContainer
+                position="bottom-right"
+                autoClose={8000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                
+                />
 
               {/* <td className={'px-6 py-4 '}>
               {online.includes(d.ipaddress) ? (

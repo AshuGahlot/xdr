@@ -23,69 +23,54 @@ const Accordian = () => {
   // console.log(data)
   return (
     <>
-      <div
-        className={
-          "relative overflow-x-auto overflow-scroll shadow-md sm:rounded-lg"
-        }
-      >
-        <table
-          className={
-            "w-full text-sm text-left text-gray-500 dark:text-gray-400"
-          }
-        >
-          <thead
-            className={
-              "text-xs sticky text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-            }
-          >
-              {type === "firewallrules" && (
-            <tr>
-                  <th scope="col" className="px-2 py-3">
-                    Firewall Rules
-                  </th>
-                  <th scope="col" className="px-2 py-3">
-                    Device Name
-                  </th>
-                  <th scope="col" className="px-2 py-3">
-                    Event ID
-                  </th>
-                  <th scope="col" className="px-2 py-3">
-                    ID
-                  </th>
-            </tr>
-              )}
-          </thead>
+      <div className="w-[1600px] 2xl:w-[1600px] xl:w-[1400px] select-none">
+      <table className="text-sm text-gray-700 dark:text-gray-300">
+  <thead className="text-xs sticky text-center  uppercase bg-gray-50 dark:bg-gray-700 ">
+    {type === "firewallrules" && (
+      <tr className="flex justify-around">
+        <th scope="col" className="px-2 py-3">
+          Source Name
+        </th>
+        <th scope="col" className="px-2 py-3">
+          Device Name
+        </th>
+        <th scope="col" className="px-2 py-3">
+          Event ID
+        </th>
+        <th scope="col" className="px-2 py-3">
+          ID
+        </th>
+
+      </tr>
+    )}
+  </thead>
 
           <tbody>
-            <div
-              className={
-                "relative overflow-x-auto w-[1300px] overflow-scroll shadow-md sm:rounded-lg"
-              }
-            >
-              <Accordion allowZeroExpanded className="">
+            <div className={"relative overflow-x-auto w-[1600px] overflow-scroll shadow-md sm:rounded-lg text-gray-700 dark:text-gray-400"}>
+              <Accordion allowZeroExpanded >
                 {data && data.length > 0 ? (
                   data.map((item, index) => (
                     <AccordionItem key={index}>
                       <AccordionItemHeading>
-                        <AccordionItemButton className="w-full h-20 flex border-b border-gray-400">
-                          <td className="flex-1 px-2 py-3">
+                        <AccordionItemButton className="w-full h-16 flex justify-around border-b border-gray-400 text-center">
+                          <td className="px-2 py-3">
                             {item.lg_type}
                           </td>
-                          <td className="flex-1 px-2 py-3">
+                          <td className="px-2 py-3">
                             {item.src_name}
                           </td>
-                          <td className="flex-1 px-2 py-3">
+                          <td className="px-2 py-3">
                             {item.e_id}
                           </td>
-                          <td className="flex-1 px-2 py-3">
+                          <td className="px-2 py-3">
                             {item.id}
                           </td>
-                          <td className="flex-1 px-2 py-3">
+                          {/* <td className="flex-1 px-2 py-3">
                           ⇩ 
-                          </td>
+                          </td> */}
                         </AccordionItemButton>
                       </AccordionItemHeading>
-                      <AccordionItemPanel className="px-4 py-2 bg-gray-500">
+                      <AccordionItemPanel className="px-4 py-3 bg-gray-600 text-gray-100 dark:text-gray-50">
                         <p>
                           Details: Additional data for{" "}
                           <p>{item.lg_type || item.drv_name}</p>
@@ -102,6 +87,7 @@ const Accordian = () => {
             </div>
           </tbody>
         </table>
+
       </div>
     </>
   );

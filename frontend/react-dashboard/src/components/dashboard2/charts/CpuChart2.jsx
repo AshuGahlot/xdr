@@ -3,6 +3,8 @@ import { Chart, registerables, } from 'chart.js';
 import { Line, Bar }  from 'react-chartjs-2';
 import axios from 'axios';
 import Modal from '../SideSheet/Modal';
+import menu from '../../../assets/images/menu.png'
+
 
 // Register the required components
 Chart.register(...registerables);
@@ -14,23 +16,20 @@ const CpuChart = ({sys_info}) => {
   const [cpuData, setCpuData] = useState([])
   const [timeStamp, setTimestamp] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [cpuNum, setCpuNum] = useState(0)
   
-  const {cpu_name} = sys_info.System_Info || {};
-  // console.log(cpu_name)
+  const {cpu_name, archs, boot_time, os, uptime, model} = sys_info.System_Info || {};
+  // console.log(sys_info)
 
   const handleModalView = () => {
-    console.log('Modal view,', isModalOpen)
     setIsModalOpen(true)
-    setCpuNum(cpu_usage)
   }
       
   useEffect(() => {
     // console.log(sys_info);
   const interval = setInterval(() => {
           if (cpu_usage !== null) {
-            setCpuData((prevData) => [...prevData.slice(-40), cpu_usage]); 
-            setTimestamp((prevTimes) => [...prevTimes.slice(-40), new Date().toLocaleTimeString(),
+            setCpuData((prevData) => [...prevData.slice(-30), cpu_usage]); 
+            setTimestamp((prevTimes) => [...prevTimes.slice(-30), new Date().toLocaleTimeString(),
             ]);
           }
         }, 1000);
@@ -106,19 +105,20 @@ const CpuChart = ({sys_info}) => {
   return (
     <div className={'w-full h-full 2xl:min-w-full pb-4'}>
       <div className='text-end'>
-      <button onClick={handleModalView} className="viewAllBtn px-[10px]">View</button>
+      <button onClick={handleModalView} className="pt-2 pr-2"><img src={menu} alt="" /></button>
+      {/* <button onClick={handleModalView} className="px-[10px]">View</button> */}
       </div>
       <Line data={data} options={options} /> {/* Render the canvas element for the chart */}
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
           <div className='leading-8'>
-          <h2>Cpu Name : </h2>
-          <h2>Cpu Usage : {cpuNum} %</h2>
-          <h2>OS : </h2>
-          <h2>Architecture : </h2>
-          <h2>System name : </h2>
-          <h2>Boot Type : </h2>
-          <h2>Up Time : </h2>
+          <h2>Cpu Name : <span className='text-green-600 dark:text-green-400'>{cpu_name}</span></h2>
+          <h2>Cpu Usage : <span className='text-green-600 dark:text-green-400'>{cpu_usage} %</span></h2>
+          <h2>OS : <span className='text-green-600 dark:text-green-400'>{os}</span></h2>
+          <h2>Architecture : <span className='text-green-600 dark:text-green-400'>{archs}</span></h2>
+          <h2>System name : <span className='text-green-600 dark:text-green-400'>{model}</span></h2>
+          <h2>Boot Time : <span className='text-green-600 dark:text-green-400'>{boot_time}</span></h2>
+          <h2>Up Time : <span className='text-green-600 dark:text-green-400'>{uptime}</span></h2>
           </div>
         </Modal>
       )}
@@ -130,17 +130,21 @@ export {CpuChart};
 
 
 
+
+
+
+
+
 const RamChart = ({sys_info}) => {
   const {mem} = sys_info || {};
   const [ramData, setRamdata] = useState([])
   const [timeStamp, setTimestamp] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [ramNum, setRamNum] = useState(0)
+
 
   const handleModalView = () => {
-    console.log('Modal view,', isModalOpen)
     setIsModalOpen(true)
-    console.log(mem)
+    console.log(sys_info)
     // setCpunum(sys_info.mem[2])
     
   }
@@ -151,8 +155,8 @@ const RamChart = ({sys_info}) => {
     // console.log('useffect ', ram_usage);
     const interval = setInterval(() => {
       if (ram_usage !== null) {
-        setRamdata((prevData) => [...prevData.slice(-40), ram_usage]); 
-        setTimestamp((prevTimes) => [...prevTimes.slice(-40), new Date().toLocaleTimeString(),
+        setRamdata((prevData) => [...prevData.slice(-30), ram_usage]); 
+        setTimestamp((prevTimes) => [...prevTimes.slice(-30), new Date().toLocaleTimeString(),
         ]);
       }
     }, 1000);
@@ -169,8 +173,8 @@ const RamChart = ({sys_info}) => {
         label: 'RAM USAGE',
         data: ramData,
         fill: true, 
-        backgroundColor: 'rgba(39, 144, 245, 0.3)',
-        borderColor: 'rgba(39, 144, 245, 1)', 
+        backgroundColor: 'rgba(75,192,192,0.4)',
+        borderColor: 'rgba(75,192,192, 1)', 
         borderWidth: 2, // Line width
         tension: 0.4, // Smoothing effect
         pointRadius: 0, // Hide data points on the line
@@ -226,7 +230,7 @@ const RamChart = ({sys_info}) => {
   return (
     <div className={'w-full h-full 2xl:min-w-full pb-4'}>
       <div className='text-end '>
-      <button  onClick={handleModalView} className="viewAllBtn px-[10px]">View</button>
+      <button  onClick={handleModalView} className="pt-2 pr-2"><img src={menu} alt="" /></button>
       </div>
       <Line data={data} options={options} /> {/* Render the canvas element for the chart */}
       {isModalOpen && (
@@ -240,6 +244,9 @@ const RamChart = ({sys_info}) => {
 };
 
 export {RamChart};
+
+
+
 
 
 
@@ -295,6 +302,14 @@ export {StorageChart};
 
 
 
+
+
+
+
+
+
+
+
 // Network Usage 
 const NetworkChart = ({sys_info}) => {
   const {network} = sys_info || {};
@@ -310,9 +325,9 @@ const NetworkChart = ({sys_info}) => {
 
     const interval = setInterval(() => {
             if (netsent !== null && netrec !== null) { // Only update if data is available
-              setNetworksent((prevData) => [...prevData.slice(-40), netsent]); 
-              setNetworkrec((prevData) => [...prevData.slice(-40), netrec]);
-              setTimestamp((prevTimes) => [...prevTimes.slice(-40), new Date().toLocaleTimeString(),
+              setNetworksent((prevData) => [...prevData.slice(-30), netsent]); 
+              setNetworkrec((prevData) => [...prevData.slice(-30), netrec]);
+              setTimestamp((prevTimes) => [...prevTimes.slice(-30), new Date().toLocaleTimeString(),
               ]);
             }
           }, 1000); 
@@ -331,7 +346,9 @@ const NetworkChart = ({sys_info}) => {
         fill: true,
         backgroundColor: 'rgba(75,192,192,0.4)',
         borderColor: 'rgba(75,192,192,1)',
+        borderWidth: 2, // Line width
         tension: 0.8,
+        pointRadius: 0,
       },
       {
         label: 'Bytes Received',
@@ -339,7 +356,9 @@ const NetworkChart = ({sys_info}) => {
         fill: true,
         backgroundColor: 'rgba(153,102,255,0.4)',
         borderColor: 'rgba(153,102,255,1)',
+        borderWidth: 2, // Line width
         tension: 0.3,
+        pointRadius: 0,
       }
     ]
   };
@@ -377,7 +396,7 @@ const NetworkChart = ({sys_info}) => {
   return (
     <div className={'w-full h-full 2xl:min-w-full pb-6'}>
       <div className='text-end'>
-      <button className="viewAllBtn px-[10px]">View</button>
+      <button className="pt-2 pr-2"><img src={menu} alt="" /></button>
       </div>
       <Line data={data} options={options} /> {/* Render the canvas element for the chart */}
     </div>

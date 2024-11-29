@@ -37,7 +37,7 @@ const SpecificDataPage = () => {
     <div className={"relative overflow-x-auto overflow-scroll shadow-md sm:rounded-lg"}>
       <table className={"w-full text-sm text-left text-gray-500 dark:text-gray-400"}>
         <thead className={"text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"}>
-          <tr>
+          <tr className='sticky'>
           {type === 'apps' && (
               <>
                 <th scope="col" className="px-2 py-3">Apps Name</th>
