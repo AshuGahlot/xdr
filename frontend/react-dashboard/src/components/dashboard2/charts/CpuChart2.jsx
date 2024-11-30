@@ -4,7 +4,7 @@ import { Line, Bar }  from 'react-chartjs-2';
 import axios from 'axios';
 import Modal from '../SideSheet/Modal';
 import menu from '../../../assets/images/menu.png'
-
+import {useNavigate} from 'react-router-dom';
 
 // Register the required components
 Chart.register(...registerables);
@@ -12,6 +12,7 @@ Chart.register(...registerables);
 
 // Cpu Usage 
 const CpuChart = ({sys_info}) => {
+  const navigate = useNavigate()
   const {cpu_usage} = sys_info || {};
   const [cpuData, setCpuData] = useState([])
   const [timeStamp, setTimestamp] = useState([])
@@ -21,7 +22,8 @@ const CpuChart = ({sys_info}) => {
   // console.log(sys_info)
 
   const handleModalView = () => {
-    setIsModalOpen(true)
+    // setIsModalOpen(true)
+    navigate('/cpuchart/', {state:{sys_info: sys_info, type: 'cpu_usage', reset: true}})
   }
       
   useEffect(() => {
@@ -110,7 +112,7 @@ const CpuChart = ({sys_info}) => {
       {/* <button onClick={handleModalView} className="px-[10px]">View</button> */}
       </div>
       <Line data={data} options={options} /> {/* Render the canvas element for the chart */}
-      {isModalOpen && (
+      {/* {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
           <div className='leading-8'>
             <h1 className='border-b-2'>CPU DETAILS</h1>
@@ -123,7 +125,7 @@ const CpuChart = ({sys_info}) => {
           <h2>Up Time : <span className='text-green-600 dark:text-green-400'>{uptime}</span></h2>
           </div>
         </Modal>
-      )}
+      )} */}
     </div>
   );
 };
@@ -138,24 +140,23 @@ export {CpuChart};
 
 // Ram Usage 
 const RamChart = ({sys_info}) => {
+  const navigate = useNavigate();
   const {mem} = sys_info || {};
   const [ramData, setRamdata] = useState([])
   const [timeStamp, setTimestamp] = useState([])
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [modalData, setModalData] = useState([]);
+  // const [isModalOpen, setIsModalOpen] = useState(false)
+  // const [modalData, setModalData] = useState([]);
 
   const handleModalView = () => {
-    setIsModalOpen(true)
+    // setIsModalOpen(true)
+    navigate('/ramchart/', {state:{sys_info: sys_info, type: 'ram_usage', reset: true}})
     console.log(sys_info);
-    const memInGB = mem.map((value, index) => 
-      index === 2 ? value : (value / (1024 ** 3)).toFixed(2)
-    );
-     setModalData(memInGB)
-       console.log(memInGB)
-    // setCpunum(sys_info.mem[2])
+    // const memInGB = mem.map((value, index) => 
+    //   index === 2 ? value : (value / (1024 ** 3)).toFixed(2)
+    // );
+    //  setModalData(memInGB)
     
   }
-
 
   useEffect(() => {
     const ram_usage = mem && mem.length > 2 ? mem[2] : 0;
@@ -241,7 +242,7 @@ const RamChart = ({sys_info}) => {
       <button  onClick={handleModalView}><img src={menu} alt="" /></button>
       </div>
       <Line data={data} options={options} /> {/* Render the canvas element for the chart */}
-      {isModalOpen && (
+      {/* {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
            <div className='leading-8'>
             <h1 className='border-b-2'>RAM DETAILS</h1>
@@ -252,7 +253,7 @@ const RamChart = ({sys_info}) => {
           <h2>Cached Ram : <span className='text-green-600 dark:text-green-400'>{modalData[4]} GB</span></h2>
           </div>
         </Modal>
-      )}
+      )} */}
     </div>
   );
 };
@@ -420,22 +421,18 @@ const BarStorageChart = ({ sys_info }) => {
   const chartOptions = {
     responsive: true,
     scales: {
-      xAxes: [
-        {
+      x:{
           stacked: true,  // Enable stacking on the X-axis
           ticks: {
             beginAtZero: true,
           },
         },
-      ],
-      yAxes: [
-        {
+      y:{
           stacked: true,  // Enable stacking on the Y-axis
           ticks: {
             beginAtZero: true,
           },
         },
-      ],
     },
     legend: {
       position: 'top',

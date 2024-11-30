@@ -18,6 +18,7 @@ import Accordian from "./components/dashboard2/SideSheet/Accordian";
 import MapComponent from "./components/dashboard2/Globe.jsx";
 import Register, { Login } from "./pages/Register";
 import Dlp from "./components/DLP/Dlp";
+import { FullChartCpu, FullChartRam } from "./components/dashboard2/charts/FullCharts";
 
 // import Details from "./pages/Details";
 
@@ -41,6 +42,9 @@ function App() {
                                 <Route path='specific-data/' element={<SpecificDataPage />} />
                                 <Route path='firewallrules/' element={<Accordian />} />
                                 <Route path='globe/' element={<MapComponent />} />
+                                <Route path='cpuchart/' element={<FullChartCpu />} />
+                                <Route path='ramchart/' element={<FullChartRam />} />
+
                                 {/* <Route path={route.HOSTS_PATH} element={<Hosts/>} /> */}
                                 <Route path={route.REGISTER_PATH} element={<Register />} />
                                 <Route path={route.LOGIN_PATH} element={<Login />} />
