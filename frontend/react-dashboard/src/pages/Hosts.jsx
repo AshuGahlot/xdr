@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 
 import UnderConstruction from "../components/common/UnderConstruction.jsx";
 import UserData2 from "../components/dashboard2/UserData2.jsx";
-import BarChart2 from "../components/dashboard2/charts/BarChart2.jsx";
+// import BarChart2 from "../components/dashboard2/charts/BarChart2.jsx";
 // import HistoryTable from "../components/dashboard/HistoryTable.jsx";
 import PieDonutChart from "../components/dashboard2/charts/PieDonutChart2.jsx";
 import DonutChart2 from "../components/dashboard2/charts/DonutChart2.jsx";
-import LineChart2 from "../components/dashboard2/charts/LineChart2.jsx";
-import WorldMap from "../components/dashboard2/Map2.jsx";
+// import LineChart2 from "../components/dashboard2/charts/LineChart2.jsx";
+import WorldMap2 from "../components/dashboard2/Map2.jsx";
 import {CpuChart, RamChart, NetworkChart, BarStorageChart} from "../components/dashboard2/charts/CpuChart2.jsx";
 import InstalledApps , { InstalledDrivers, BackgroundProcess, Logs, ConnectedIps, FireWallRules } from "../components/dashboard2/Tables/Table.jsx";
 import MapComponent from '../components/dashboard2/Globe.jsx';
@@ -43,7 +43,6 @@ const Hosts = () => {
     }
   },[ip, name])
 
-
   return (
     <div className={"w-full h-auto"}>
       <div className={"h-auto w-full mt-[30px] 2xl:mt-[30px]"}>
@@ -51,7 +50,7 @@ const Hosts = () => {
       </div>
 
       {/* Charts start  */}
-      <div className={"h-auto w-auto sm:grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-x-[18px] gap-y-[18px] 2xl:gap-x-[25px] mt-[30px] 2xl:mt-[30px]"}>
+      <div className={"h-auto w-auto sm:grid sm:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-x-[18px] gap-y-[18px] 2xl:gap-x-[25px] mt-[30px] 2xl:mt-[30px]"}>
         <div className={"dashboardCard w-full h-[150px] sm:h-[200px]  lg:h-[250px]  2xl:h-[320px] 2xl:px-1 py-1 2xl:py-1 px-1 shadow-md"}>
           <CpuChart sys_info={data}/>
         </div>
@@ -61,15 +60,18 @@ const Hosts = () => {
         <div className={"dashboardCard w-full  h-[150px] sm:h-[200px] lg:min-h-[250px] 2xl:min-h-[320px] 2xl:px-1 py-1 2xl:py-1 px-1 shadow-md"}>
         <NetworkChart sys_info={data}/>
         </div>
-        <div className={"dashboardCard w-full  h-[150px] sm:h-[200px] lg:min-h-[250px] 2xl:min-h-[320px] 2xl:px-1 py-1 2xl:py-1 px-1 shadow-md"}>
+        <div className={"dashboardCard w-full  h-[150px] sm:h-[200px] lg:min-h-[250px] 2xl:min-h-[320px]  px-1 2xl:px-1 py-1 2xl:py-1 shadow-md"}>
         <BarStorageChart sys_info={data}/>
         </div>
-        {/* <div className={"dashboardCard text-center flex justify-center w-full h-[180px] sm:h-[200px] lg:min-h-[270px] 2xl:min-h-[270px] px-2 2xl:px-2 py-4 2xl:py-4 md:col-span-2 shadow-md"}>
-        <PieDonutChart sys_info={data} /> 
-        </div> */}
+        <div className={"dashboardCard w-full h-[150px] sm:h-[200px] lg:min-h-[250px] 2xl:min-h-[320px] px-2 text-center shadow-md overflow-hidden"}>
+        <WorldMap2 sys_info={data}/> 
+        </div>
+        <div className={"dashboardCard w-full h-[150px] sm:h-[200px] lg:min-h-[250px] 2xl:min-h-[320px] px-2 text-center shadow-md overflow-hidden"}>
+        {/* <WorldMap2 sys_info={data}/>  */}
+        </div>
       </div>
 
-      <div className={" h-auto w-auto sm:grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-x-[18px] gap-y-[18px] 2xl:gap-x-[25px] mt-[18px] 2xl:mt-[30px]"}>
+      <div className={"h-auto w-auto sm:grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-x-[18px] gap-y-[18px] 2xl:gap-x-[25px] mt-[18px] 2xl:mt-[30px]"}>
         <div className={"dashboardCard flex justify-center w-full h-[200px] sm:h-[300px] lg:min-h-[400px] 2xl:h-[320px] px-[21px] 2xl:px-7 py-[15px] 2xl:py-5 shadow-md"}>
           <InstalledApps />
         </div>

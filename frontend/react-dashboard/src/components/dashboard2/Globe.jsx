@@ -16,22 +16,6 @@ const MapComponent = () => {
   const location = useLocation();
   const { data, type, sys_info } = location.state || {}; // Accessing passed data
 
-//   const countryEmojis = sys_info.location
-//   .map((item, index) => {
-//     if (!item.loc) {
-//       console.warn(`Missing loc in location[${index}]:`, item);
-//       return null;
-//     }
-//     if (!item.loc.country_emoji) {
-//       console.warn(`Missing country_emoji in location[${index}]:`, item.loc);
-//       return null;
-//     }
-//     return item.loc.country_emoji;
-//   })
-//   .filter(Boolean); // Remove null values
-
-// console.log("Extracted country emojis:", countryEmojis);
-
   // Parse and set latitude/longitude
   useEffect(() => {
     console.log(sys);
@@ -178,7 +162,7 @@ const MapComponent = () => {
   }, [rotation, isDarkTheme]);
 
   return (
-    <div className="w-full h-[800px] grid grid-cols-4" style={{background:' linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,43,65,1) 49%, rgba(0,4,5,1) 100%)'}}>
+    <div className="w-full h-[800px] grid grid-cols-4 pt-4" style={{background:' linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,43,65,1) 49%, rgba(0,4,5,1) 100%)'}}>
       <div className="md:h-[400px] 2xl:h-[600px] text-xs text-white bg-gray-900 sticky w-[450px] overflow-y-scroll z-10 border border-gray-700">
         <table>
           <thead className="bg-gray-700 text-center border-b-2  sticky top-0 z-10">

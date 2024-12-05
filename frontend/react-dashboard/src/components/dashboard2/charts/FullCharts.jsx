@@ -10,7 +10,7 @@ import {useLocation} from 'react-router-dom'
 Chart.register(...registerables);
 
 
-// FULL OAGE CHART CPU USAGE 
+// CPU USAGE FULL PAGE CHART
 const FullChartCpu = () => {
     const [cpuData, setCpuData] = useState([])
     const [timeStamp, setTimestamp] = useState([])
@@ -23,6 +23,8 @@ const FullChartCpu = () => {
     const {cpu_usage} = sys_info || {};
 
     useEffect(() => {
+      console.log(sys_info);
+      
          // Set initial data
     setCpuData((prev) => (Array.isArray(prev) ? prev : []));
     const interval = setInterval(() => {
@@ -113,14 +115,14 @@ const FullChartCpu = () => {
       <div className={'w-full h-full 2xl:min-w-full pb-10'}>
         <h2 className="cardTitle ">CPU UTILIZATION </h2>
         <Line data={data} options={options} /> {/* Render the canvas element for the chart */}
-        <div className='cardTitle pt-4 pb-8 px-8 grid grid-cols-2 leading-8'>
-        <h2>Cpu Name : <span className='text-green-600 dark:text-green-400'>{cpu_name}</span></h2>
-          <h2>Cpu Usage : <span className='text-green-600 dark:text-green-400'>{cpu_usage} %</span></h2>
-          <h2>OS : <span className='text-green-600 dark:text-green-400'>{os}</span></h2>
-          <h2>Architecture : <span className='text-green-600 dark:text-green-400'>{archs}</span></h2>
-          <h2>System name : <span className='text-green-600 dark:text-green-400'>{model}</span></h2>
-          <h2>Boot Time : <span className='text-green-600 dark:text-green-400'>{boot_time}</span></h2>
-          <h2>Up Time : <span className='text-green-600 dark:text-green-400'>{uptime}</span></h2>
+        <div className='cardTitle pt-4 pb-8 px-8 leading-8'>
+        <h2>Cpu Name : <span className='text-blue-600 dark:text-blue-300'>{cpu_name}</span></h2>
+          <h2>Cpu Usage : <span className='text-blue-600 dark:text-blue-300'>{cpu_usage} %</span></h2>
+          <h2>OS : <span className='text-blue-600 dark:text-blue-300'>{os}</span></h2>
+          <h2>Architecture : <span className='text-blue-600 dark:text-blue-300'>{archs}</span></h2>
+          <h2>System name : <span className='text-blue-600 dark:text-blue-300'>{model}</span></h2>
+          <h2>Boot Time : <span className='text-blue-600 dark:text-blue-300'>{boot_time}</span></h2>
+          <h2>Up Time : <span className='text-blue-600 dark:text-blue-300'>{uptime}</span></h2>
         </div>
       </div>
     );
@@ -133,7 +135,7 @@ const FullChartCpu = () => {
 
 
 
-//   RAM FULL PAGE CHART 
+//   RAM USAGE FULL PAGE CHART 
 const FullChartRam = () => {
     const [ramData, setRamData] = useState([])
     const [timeStamp, setTimestamp] = useState([])
@@ -149,7 +151,7 @@ const FullChartRam = () => {
         }
     
         const interval = setInterval(() => {
-          const memValue = mem[2]; // Get mem[3] value directly
+          const memValue = mem[2]; // Get mem[2] value directly
           console.log(memValue);
           
     
@@ -168,7 +170,9 @@ const FullChartRam = () => {
     
         return () => clearInterval(interval); // Cleanup interval on unmount
       }, [mem]);
-  
+
+      // TO RENDER IN UI <H2> TAG 
+      const latestRamUsage = ramData.length > 0 ? ramData[ramData.length - 1] : "N/A";
   
     const data = {
       labels: timeStamp,
@@ -232,13 +236,124 @@ const FullChartRam = () => {
     };
   
     return (
-      <div className={'w-full h-full 2xl:min-w-full pb-4'}>
-       <h2 className="cardTitle">RAM UTILIZATION </h2>
-       <div className='flex justify-between pt-2 px-2'>
-        </div>
+      <div className={'w-full h-full 2xl:min-w-full pb-10'}>
+        <h2 className="cardTitle ">RAM UTILIZATION </h2>
         <Line data={data} options={options} /> {/* Render the canvas element for the chart */}
+        <div className='cardTitle pt-4 pb-8 px-8 leading-8'>
+          <h2>Ram Usage : <span className='text-green-600 dark:text-green-400'>{latestRamUsage}%</span></h2>
+        </div>
       </div>
     );
   };
   
   export {FullChartRam};
+
+
+
+
+
+  // NETWORK USAGE FULL PAGE CHART 
+
+  const FullChartNetwork = () => {
+    const [networksent, setNetworksent] = useState([])
+    const [networkrec, setNetworkrec] = useState([])
+    const [timeStamp, setTimestamp] = useState([])
+    const [sentMB, setSentMB] = useState(0); // State for sent bytes in MB
+    const [recMB, setRecMB] = useState(0);  // State for received bytes in MB
+
+    const location = useLocation();
+    const {sys_info, type} = location.state || {};
+    const {network} = sys_info || {};
+  
+    useEffect(() => {
+      const netsent = network && network.length > 2 ? network[2] : 0
+      const netrec = network && network.length > 3 ? network[3] : 0
+
+      const bytesToMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2); // Conversion function
+  
+      const interval = setInterval(() => {
+              if (netsent !== null && netrec !== null) { // Only update if data is available
+                 // Convert bytes to MB and update state
+                setSentMB(bytesToMB(netsent));
+                setRecMB(bytesToMB(netrec));
+                setNetworksent((prevData) => [...prevData.slice(-30), netsent]); 
+                setNetworkrec((prevData) => [...prevData.slice(-30), netrec]);
+                setTimestamp((prevTimes) => [...prevTimes.slice(-30), new Date().toLocaleTimeString(),
+                ]);
+              }
+            }, 1000); 
+        
+            return () => clearInterval(interval);
+  
+    }, [networksent, networkrec]);
+  
+  
+    const data = {
+      labels: timeStamp.fill(' '),
+      datasets: [
+        {
+          label: 'Bytes Sent',
+          data: networksent,
+          fill: true,
+          backgroundColor: 'rgba(75,192,192,0.4)',
+          borderColor: 'rgba(75,192,192,1)',
+          borderWidth: 2, // Line width
+          tension: 0.8,
+          pointRadius: 0,
+        },
+        {
+          label: 'Bytes Received',
+          data: networkrec,
+          fill: true,
+          backgroundColor: 'rgba(153,102,255,0.4)',
+          borderColor: 'rgba(153,102,255,1)',
+          borderWidth: 2, // Line width
+          tension: 0.3,
+          pointRadius: 0,
+        }
+      ]
+    };
+  
+    const options = {
+      maintainAspectRatio: false,
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: '#666',
+          },
+          grid: {
+            color: 'rgba(56, 56, 56, 0.3)'
+          }
+        },
+        y: {
+          // max: 200,
+          beginAtZero: true,
+          ticks: {
+            color: '#666',
+          },
+          grid: {
+            color: 'rgba(56, 56, 56, 0.3)'
+          },
+        },
+      }
+    };
+  
+    return (
+      <div className={'w-full h-full 2xl:min-w-full pb-10'}>
+        <h2 className="cardTitle">NETWORK UTILIZATION</h2>
+        <Line data={data} options={options} /> {/* Render the canvas element for the chart */}
+        <div className='cardTitle pt-4 pb-8 px-8 leading-8'>
+          <h2>Network Bytes Sent : <span className='text-blue-600 dark:text-blue-300'>{sentMB} MB</span></h2>
+          <h2>Network Bytes Received : <span className='text-blue-600 dark:text-blue-300'>{recMB} MB</span></h2>
+        </div>
+      </div>
+    );
+  };
+  
+  export {FullChartNetwork};

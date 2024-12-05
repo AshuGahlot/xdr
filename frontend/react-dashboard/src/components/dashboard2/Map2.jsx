@@ -1,41 +1,90 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Plot from 'react-plotly.js';
+const WorldMap2 = ({sys_info}) => {
+  const ports = sys_info?.ports || {};
+  const [ipData, setIpData] = useState([]);
+  const [latitude, setLatitude] = useState([]);
+  const [longitude, setLongitude] = useState([]);
 
-const WorldMap2 = () => {
-  const data = [
+  // Memoized processing of ports and location data
+  const ProceddesData = useMemo(() => {
+    // Ensure valid ports data
+    if (Array.isArray(ports)) {
+      return ports;
+      
+    } else {
+      console.log('Invalid Ports Data');
+      return [];
+    }
+  }, [ports]);
+  
+
+  // Effect to update ipData when ProceddesData changes
+  useEffect(() => {
+    if (JSON.stringify(ipData) !== JSON.stringify(ProceddesData)) {
+      setIpData(ProceddesData);
+
+       // Process location data from sys_info if available
+       if (sys_info?.location) {
+        const newLongitude = [];
+        const newLatitude = [];
+        
+        sys_info.location.forEach(({ loc }) => {
+          newLatitude.push(parseFloat(loc.latitude));
+          newLongitude.push(parseFloat(loc.longitude));
+        });
+
+        setLatitude(newLatitude);
+        setLongitude(newLongitude);
+      }
+      // console.log(ProceddesData, ipData);
+      
+    }
+  }, [ProceddesData, ipData]);
+
+  // Prepare the data for Plotly map
+  const data = useMemo(() => [
     {
-      type: 'scattergeo',
-      mode: 'markers',
-      lon: [24.34],
-      lat: [17.6],
+      type: "scattergeo",
+      mode: "markers+text", // Markers with text labels
+      lon: longitude, // Longitude for markers
+      lat: latitude,  // Latitude for markers
       marker: {
-        width: 4,
-        color: 'rgb(255,0,0)',
+        size: 8, // Marker size
+        color: "lightgreen", // Marker color
+        symbol: "circle", // Marker symbol
       },
-      text: 'hello',
+      // text: latitude.map((lat, index) => `Lat: ${lat}, Lon: ${longitude[index]}`), // Text for each marker
+      textposition: "top right", // Position text relative to markers
+      textfont: {
+        family: "Arial",
+        size: 10,
+        color: "white", // Change text color based on theme if needed
+      },
     },
-  ];
+  ], [longitude, latitude]);
 
   const layout = {
     autoresize: false,
-    width: 530,
-    height: 260,
+    width: 450,
+    height: 280,
     geo: {
       projection: {
         type: 'scattergeo',
         scale: 1,
       },
-      scope: 'world',
+      scope: "world",
       showcoastlines: true,
-      coastlinecolor: 'rgb(168, 168, 168)',
+      coastlinecolor: "rgb(0, 136, 129)",
       showland: true,
-      landcolor: 'rgb(118, 123, 135)',
-      showocean: false,
-      coastlinewidth: 0.2,
+      landcolor: "rgb(0.1, 0.2, 0.2)",
+      showocean: true,
+      oceancolor: "rgb(0.07, 0.1, 0.1)",
+      coastlinewidth: 0.4,
       showcountries: true,
-      countrycolor: 'rgb(41, 43, 48)',
+      countrycolor: "rgb(4, 184, 178)",
       countrywidth: 0.4,
-      bgcolor: 'rgba(0, 0, 0, 0)',
+      bgcolor: "rgba(0, 0, 0, 0)",
       lonaxis: {
         range: [-180, 180],
         showgrid: false,
@@ -59,7 +108,7 @@ const WorldMap2 = () => {
     displayModeBar: false,
     modeBarButtonsToRemove: ['toImage'],
     displaylogo: false,
-    responsive: false,
+    responsive: true,
     scrollZoom: true,
     doubleClick: 'reset',
     editable: true,
@@ -70,7 +119,7 @@ const WorldMap2 = () => {
       filename: 'custom_image',
       height: 600,
       width: 800,
-      scale: 2,
+      scale: 3,
     },
     fillFrame: true,
     frameMargins: 0,

@@ -17,8 +17,8 @@ const SideSheet = ({ isOpen, onClose, selectedData, type }) => {
         return 'Background Process Details';
       case 'logs':
         return 'Log Details';
-      case 'ips':
-        return 'Connected IP Details';
+      // case 'ips':
+      //   return 'Connected IP Details';
       default:
         return 'Details';
     }
@@ -41,35 +41,37 @@ const SideSheet = ({ isOpen, onClose, selectedData, type }) => {
           <div className="my-5 space-y-4">
              {type === 'apps' && (
               <>
-                <p><strong className="py-3">Apps Name :</strong>{selectedData.value.app_name}</p>
-                <p><strong className="py-3">Version :</strong>{selectedData.value.ver}</p>
-               <p> <strong  className="py-3">Vendor :</strong>{selectedData.value.vend}</p>
-                <p><strong  className="py-3">ID :</strong>{selectedData.value.id}</p>
+                <p><strong className="py-3">Apps Name : </strong>{selectedData.value.app_name}</p>
+                <p><strong className="py-3">Version : </strong>{selectedData.value.ver}</p>
+                <p><strong className="py-3">New Version : </strong>{selectedData.value.ver}</p>
+               <p> <strong  className="py-3">Publisher : </strong>{selectedData.value.vend}</p>
+                {/* <p><strong  className="py-3">ID : </strong>{selectedData.value.id}</p> */}
               </>
             )}
              {type === 'drivers' && (
               <>
-                <p><strong scope="col" className="py-3">Drivers Name :</strong>{selectedData.value.drv_name}</p>
-                <p><strong scope="col" className="py-3">Version :</strong>{selectedData.value.ver}</p>
-                <p><strong scope="col" className="py-3">User Name :</strong>{selectedData.value.pc_name}</p>
-                <p><strong scope="col" className="py-3">ID :</strong>{selectedData.value.id}</p>
+                <p><strong scope="col" className="py-3">Drivers Name : </strong>{selectedData.value.drv_name}</p>
+                <p><strong scope="col" className="py-3">Version : </strong>{selectedData.value.ver}</p>
+                {/* <p><strong scope="col" className="py-3">User Name : </strong>{selectedData.value.pc_name}</p>
+                <p><strong scope="col" className="py-3">ID : </strong>{selectedData.value.id}</p> */}
               </>
             )}
              {type === 'bgp' && (
               <>
-                <p><strong scope="col" className="py-3">Background Process Name :</strong>{selectedData.value.exe_name}</p>
-                <p><strong scope="col" className="py-3">Last Updated :</strong>{selectedData.value.last_update}</p>
-                <p><strong scope="col" className="py-3">Procedded By :</strong>{selectedData.value.pcd_by}</p>
-                <p><strong scope="col" className="py-3">Process ID :</strong>{selectedData.value.pid}</p>
+                <p><strong scope="col" className="py-3">Background Process Name : </strong>{selectedData.value.exe_name}</p>
+                <p><strong scope="col" className="py-3">Last Updated : </strong>{selectedData.value.last_update}</p>
+                <p><strong scope="col" className="py-3">Procedded By : </strong>{selectedData.value.pcd_by}</p>
+                <p><strong scope="col" className="py-3">Process ID : </strong>{selectedData.value.pid}</p>
               </>
             )}
              {type === 'logs' && (
               <>
-                <p><strong scope="col" className="py-3">Logs Type :</strong>{selectedData.value.lg_type}</p>
-                <p><strong scope="col" className="py-3">Source Name :</strong>{selectedData.value.src_name}</p>
-                <p><strong scope="col" className="py-3">Description :</strong>{selectedData.value.desc || 'NO Description Available'}</p>
-                <p><strong scope="col" className="py-3">Log Category :</strong>{selectedData.value.lg_cat}</p>
-                <p><strong scope="col" className="py-3">Severnity :</strong>{selectedData.value.svt}</p>
+                <p><strong scope="col" className="py-3">Logs Type : </strong>{selectedData.value.lg_type}</p>
+                <p><strong scope="col" className="py-3">Source Name : </strong>{selectedData.value.src_name}</p>
+                <p><strong scope="col" className="py-3">Description : </strong>{selectedData.value.desc || 'NO Description Available'}</p>
+                <p><strong scope="col" className="py-3">Time Generated : </strong>{selectedData.value.time}</p>
+                <p><strong scope="col" className="py-3">Event ID : </strong>{selectedData.value.e_id}</p>
+                <p><strong scope="col" className="py-3">Severnity : </strong><span className={`badgelog ${selectedData.value.svt === "Low"? "bg-green-400 dark:bg-green-600": selectedData.value.svt === "High"? "bg-red-500 dark:bg-red-700" : selectedData.value.svt === 'Medium'? 'bg-yellow-400 dark:bg-yellow-600': "bg-gray-200 dark:bg-gray-600"}`}>{selectedData.value.svt}</span></p>
               </>
             )}
           </div>

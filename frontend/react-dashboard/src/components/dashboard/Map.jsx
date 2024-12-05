@@ -18,24 +18,25 @@ const WorldMap = () => {
 
   const layout = {
     autoresize: false,
-    width: 470,
+    width: 480,
     height: 290,
     geo: {
       projection: {
         type: 'scattergeo',
         scale: 1,
       },
-      scope: 'world',
+      scope: "world",
       showcoastlines: true,
-      coastlinecolor: 'rgb(168, 168, 168)',
+      coastlinecolor: "rgb(0, 136, 129)",
       showland: true,
-      landcolor: 'rgb(118, 123, 135)',
-      showocean: false,
-      coastlinewidth: 0.2,
+      landcolor: "rgb(0.1, 0.2, 0.2)",
+      showocean: true,
+      oceancolor: "rgb(0.07, 0.1, 0.1)",
+      coastlinewidth: 0.4,
       showcountries: true,
-      countrycolor: 'rgb(41, 43, 48)',
-      countrywidth: 0.3,
-      bgcolor: 'rgba(0, 0, 0, 0)',
+      countrycolor: "rgb(4, 184, 178)",
+      countrywidth: 0.4,
+      bgcolor: "rgba(0, 0, 0, 0)",
       lonaxis: {
         range: [-180, 180],
         showgrid: false,
@@ -46,7 +47,7 @@ const WorldMap = () => {
       },
       scaleanchor: 'x',
       scaleratio: 1,
-      projection_scale: 1.5,
+      projection_scale: 1.6,
     },
     margin: { t: 0, b: 0, l: 0, r: 0 },
     paper_bgcolor: 'rgb(74, 74, 74, 0)',
@@ -79,7 +80,7 @@ const WorldMap = () => {
   };
 
   return (
-    <div className={'w-full 2xl:min-w-[460px] h-[200px] 2xl:min-h-[260px]'}>
+    <div className={'w-full 2xl:min-w-[400px] h-[200px] 2xl:min-h-[260px]'}>
       <Plot data={data} layout={layout} config={config} />
     </div>
   );

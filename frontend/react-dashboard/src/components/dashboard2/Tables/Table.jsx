@@ -30,6 +30,8 @@ const InstalledApps = () => {
 
                 const data = await response.json();
                 setRawData(data);
+                console.log(data);
+                
 
                 const truncatedData = data.map((app) => ({
                     ...app,
@@ -112,6 +114,7 @@ const InstalledDrivers = () => {
                 
                 const data = await response.json();
                 setDriversData(data);
+                
             } catch (err) {
                 setError('Failed to fetch client details');
                 console.error('Error fetching client data:', err);
@@ -186,7 +189,7 @@ const BackgroundProcess = () => {
                 if (!response.ok) throw new Error(`Error fetching client data: ${response.status}`);
                 
                 const data = await response.json();
-                // console.log(data);
+                console.log(data);
                 
                 
                 setBackgroundProcessData(data);
@@ -200,14 +203,14 @@ const BackgroundProcess = () => {
     }, [ip]);
 
     if (error) return <p>{error}</p>;
-    if (!backgroundProcessData.length) {
-        return (
-          <div className={'w-full flex flex-col h-full'}>
-            <Skeleton count={0.4} baseColor={'#d9d9d9'}/>
-            <Skeleton height={30} count={8} baseColor={'#d9d9d9'} enableAnimation={true} duration={1.3} direction={'ltr'} className="mb-2" />
-          </div>
-        );
-    }
+    // if (!backgroundProcessData.length) {
+    //     return (
+    //       <div className={'w-full flex flex-col h-full'}>
+    //         <Skeleton count={0.4} baseColor={'#d9d9d9'}/>
+    //         <Skeleton height={30} count={8} baseColor={'#d9d9d9'} enableAnimation={true} duration={1.3} direction={'ltr'} className="mb-2" />
+    //       </div>
+    //     );
+    // }
     return (
         <div className="w-full flex flex-col h-full">
             <div className="mb-[18px] flex justify-between items-center">
@@ -278,6 +281,7 @@ const Logs = () => {
                 if (!response.ok) throw new Error(`Error fetching client data: ${response.status}`);
                 
                 const data = await response.json();
+                
                 if (Array.isArray(data)) {
                     setLogsData(data);
                 }
@@ -320,6 +324,8 @@ const Logs = () => {
                                                     ? "bg-green-400 dark:bg-green-600"
                                                     : log.svt === "High"
                                                     ? "bg-red-500 dark:bg-red-700" 
+                                                    : log.svt === 'Medium'
+                                                    ? 'bg-yellow-400 dark:bg-yellow-600'
                                                     : "bg-gray-200 dark:bg-gray-600" 
                                                     }`}>{log.svt}</span>
                                             </li>

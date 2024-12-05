@@ -21,7 +21,7 @@ const CpuChart = ({sys_info}) => {
   const {cpu_name, archs, boot_time, os, uptime, model} = sys_info.System_Info || {};
   // console.log(sys_info)
 
-  const handleModalView = () => {
+  const handleFullView = () => {
     // setIsModalOpen(true)
     navigate('/cpuchart/', {state:{sys_info: sys_info, type: 'cpu_usage', reset: true}})
   }
@@ -108,8 +108,7 @@ const CpuChart = ({sys_info}) => {
     <div className={'w-full h-full 2xl:min-w-full pb-4'}>
       <div className='flex justify-between pt-2 px-2'>
       <h2 className="cardTitle ">CPU UTILIZATION </h2>
-      <button onClick={handleModalView}><img src={menu} alt="" /></button>
-      {/* <button onClick={handleModalView} className="px-[10px]">View</button> */}
+      <button onClick={handleFullView}><img src={menu} alt="" /></button>
       </div>
       <Line data={data} options={options} /> {/* Render the canvas element for the chart */}
       {/* {isModalOpen && (
@@ -147,7 +146,7 @@ const RamChart = ({sys_info}) => {
   // const [isModalOpen, setIsModalOpen] = useState(false)
   // const [modalData, setModalData] = useState([]);
 
-  const handleModalView = () => {
+  const handleFullView = () => {
     // setIsModalOpen(true)
     navigate('/ramchart/', {state:{sys_info: sys_info, type: 'ram_usage', reset: true}})
     console.log(sys_info);
@@ -239,7 +238,7 @@ const RamChart = ({sys_info}) => {
     <div className={'w-full h-full 2xl:min-w-full pb-4'}>
      <div className='flex justify-between pt-2 px-2'>
      <h2 className="cardTitle">RAM UTILIZATION </h2>
-      <button  onClick={handleModalView}><img src={menu} alt="" /></button>
+      <button  onClick={handleFullView}><img src={menu} alt="" /></button>
       </div>
       <Line data={data} options={options} /> {/* Render the canvas element for the chart */}
       {/* {isModalOpen && (
@@ -266,11 +265,15 @@ export {RamChart};
 
 // Network Usage 
 const NetworkChart = ({sys_info}) => {
+  const navigate = useNavigate();
   const {network} = sys_info || {};
   const [networksent, setNetworksent] = useState([])
   const [networkrec, setNetworkrec] = useState([])
   const [timeStamp, setTimestamp] = useState([])
 
+  const handleFullView = () => {
+    navigate('/networkchart/', {state:{sys_info: sys_info, type: 'network', reset: true}})
+  }
 
   useEffect(() => {
     const netsent = network && network.length > 2 ? network[2] : 0
@@ -351,7 +354,7 @@ const NetworkChart = ({sys_info}) => {
     <div className={'w-full h-full 2xl:min-w-full pb-6'}>
       <div className='flex justify-between pt-2 px-2'>
       <h2 className="cardTitle ">NETWORK USAGE </h2>
-      <button><img src={menu} alt="" /></button>
+      <button onClick={handleFullView}><img src={menu} alt="" /></button>
       </div>
       <Line data={data} options={options} /> {/* Render the canvas element for the chart */}
     </div>
@@ -369,7 +372,7 @@ const BarStorageChart = ({ sys_info }) => {
   const [storageDrive, setStoragedrives] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const handleModalView = () => {
+  const handleFullView = () => {
     setIsModalOpen(true)
     console.log(sys_info);
     
@@ -430,7 +433,10 @@ const BarStorageChart = ({ sys_info }) => {
       y:{
           stacked: true,  // Enable stacking on the Y-axis
           ticks: {
+            display: false,
             beginAtZero: true,
+            max: 100,
+            callback: value => `${value} GB`, // Add 'GB' label to the ticks
           },
         },
     },
@@ -444,7 +450,7 @@ const BarStorageChart = ({ sys_info }) => {
     <div className="storage-bar-chart">
       <div className='flex justify-between pt-2 px-2'>
       <h2 className="cardTitle ">STORAGE DRIVES </h2>
-      <button onClick={handleModalView}><img src={menu} alt="" /></button>
+      <button onClick={handleFullView}><img src={menu} alt="" /></button>
       </div>
       <div className="flex justify-center mt-4">
         <Bar data={chartData} options={chartOptions} />
